@@ -15,7 +15,6 @@ interface Episode {
   thumbnail: string;
   duration: number;
   durationAsString: string;
-  description: string;
   url: string;
 }
 interface HomeProps {
@@ -136,7 +135,6 @@ export const getStaticProps: GetStaticProps = async () => {
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
       duration: Number(episode.file.duration),
       durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
-      description: episode.description,
       ulr: episode.file.url,
     }
   })
