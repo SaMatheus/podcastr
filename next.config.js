@@ -1,5 +1,5 @@
-module.export = {
+module.exports = {
   images: {
-    domanins: ['storage.googleapis.com']
+    domains: ['storage.googleapis.com']
   }
 }
