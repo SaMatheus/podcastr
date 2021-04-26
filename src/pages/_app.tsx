@@ -15,10 +15,20 @@ import { Player } from '../components/Player'
 const MyApp = ({ Component, pageProps }) => {
   const [episodeList, setEpisodeList] = useState([])
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const play = (episode) => {
     setEpisodeList([episode])
     setCurrentEpisodeIndex(0)
+    setIsPlaying(true)
+  }
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying)
+  }
+
+  const setPlayingState = (state: boolean) => {
+    setIsPlaying(state)
   }
 
   return (
@@ -26,7 +36,10 @@ const MyApp = ({ Component, pageProps }) => {
       {
         episodeList,
         currentEpisodeIndex,
-        play
+        isPlaying,
+        play,
+        togglePlay,
+        setPlayingState
       }
     }>
       <div className={styles.wrapper}>
