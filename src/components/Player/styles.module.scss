@@ -126,18 +126,31 @@
     // Visual
     background: transparent;
     border: 0;
+    transition: filter 0.2s;
 
     // Tipography
     font-size: 0; // Isso aqui centralizará a imagem dentro do button
 
+    &:disabled {
+      cursor: default;
+    }
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.7);
+    }
+
     &.playButton {
       // Box Model
       width: 4rem;
-      height: 4rem;
+      height: 4rem;  
 
       // Visual
       border-radius: 1rem;
       background: var(--purple-400);
+
+      &:hover{
+        filter: brightness(0.95);
+      }
     }
   }
 }
