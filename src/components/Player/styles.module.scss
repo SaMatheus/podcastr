@@ -33,6 +33,36 @@
   }
 }
 
+.currentEpisode {
+  text-align: center;
+
+  img {
+    border-radius: 1.5rem;
+  }
+
+  strong {
+    // Box Model
+    display: block;
+    margin-top: 2rem;
+
+    // Tipography
+    font: 600 1.25rem Lexand, sans-serif;
+    line-height: 1.75rem;
+  }
+
+  span {
+    // Box Model
+    display: block;
+    margin-top: 1rem;
+
+    // Visual
+    opacity: 0.6;
+
+    // Tipography
+    line-height: 1.5rem;
+  }
+}
+
 .emptyPlayer {
   // Box Model
   display: flex;
