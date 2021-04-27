@@ -9,16 +9,16 @@ import 'rc-slider/assets/index.css'
 import Image from 'next/image'
 
 //CONTEXT
-import { PlayerContext } from '../../contexts/PlayerContext'
+import { usePlayer } from '../../contexts/PlayerContext'
 
 // HOOKS
-import { useContext, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 
 export const Player = () => {
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const { episodeList, currentEpisodeIndex, isPlaying, togglePlay, setPlayingState } = useContext(PlayerContext)
+  const { episodeList, currentEpisodeIndex, isPlaying, hasNext, hasPrevious, togglePlay, setPlayingState, playNext, playPrevious } = usePlayer()
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -83,7 +83,7 @@ export const Player = () => {
           <button type="button" disabled={!episode}>
             <img src="/shuffle.svg" alt="Embaralhar" />
           </button>
-          <button type="button" disabled={!episode}>
+          <button type="button" disabled={!episode || !hasPrevious} onClick={playPrevious}>
             <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
           <button
@@ -94,7 +94,7 @@ export const Player = () => {
           >
             {isPlaying ? <img src="/pause.svg" alt="Tocar" /> : <img src="/play.svg" alt="Tocar" />}
           </button>
-          <button type="button" disabled={!episode}>
+          <button type="button" disabled={!episode || !hasNext} onClick={playNext}>
             <img src="/play-next.svg" alt="Tocar proxima" />
           </button>
           <button type="button" disabled={!episode}>

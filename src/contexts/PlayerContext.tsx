@@ -1,5 +1,5 @@
 // HOOKS
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 // TIPAGEM
 interface Episode {
@@ -14,9 +14,13 @@ interface PlayerContextData {
   episodeList: Episode[];
   currentEpisodeIndex: number;
   isPlaying: boolean;
+  hasNext: boolean;
+  hasPrevious: boolean;
   play: (episode: Episode) => void;
   playList: (list: Episode[], index: number) => void;
   togglePlay: () => void;
+  playNext: () => void;
+  playPrevious: () => void;
   setPlayingState: (state: boolean) => void;
 }
 
@@ -26,12 +30,12 @@ interface PlayerContextProviderProps {
 
 export const PlayerContext = createContext({} as PlayerContextData)
 
-export const PlayerContextProvider = ({ children }) => {
+export const PlayerContextProvider = ({ children }: PlayerContextProviderProps) => {
   const [episodeList, setEpisodeList] = useState([])
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const play = (episode) => {
+  const play = (episode: Episode) => {
     setEpisodeList([episode])
     setCurrentEpisodeIndex(0)
     setIsPlaying(true)
@@ -51,19 +55,42 @@ export const PlayerContextProvider = ({ children }) => {
     setIsPlaying(state)
   }
 
+  const hasNext = (currentEpisodeIndex + 1) < episodeList.length
+  const hasPrevious = currentEpisodeIndex > 0
+
+  const playNext = () => {
+    if (hasNext) {
+      setCurrentEpisodeIndex(currentEpisodeIndex + 1)
+    }
+  }
+
+  const playPrevious = () => {
+    if (hasPrevious) {
+      setCurrentEpisodeIndex(currentEpisodeIndex - 1)
+    }
+  }
+
   return (
     <PlayerContext.Provider value={
       {
         episodeList,
         currentEpisodeIndex,
         isPlaying,
+        hasNext,
+        hasPrevious,
         play,
         playList,
+        playNext,
         togglePlay,
+        playPrevious,
         setPlayingState
       }
     }>
       {children}
     </PlayerContext.Provider>
   )
+}
+
+export const usePlayer = () => {
+  return useContext(PlayerContext)
 }

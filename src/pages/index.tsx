@@ -33,14 +33,12 @@ import ptBR from 'date-fns/locale/pt-BR'
 import convertDurationToTimeString from '../utils/convertDurationToTimeString'
 
 // CONTEXT
-import { PlayerContext } from '../contexts/PlayerContext'
+import { usePlayer } from '../contexts/PlayerContext'
 
-// HOOKS
-import { useContext } from 'react'
 
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { playList } = useContext(PlayerContext)
+  const { playList } = usePlayer()
 
   const episodeList = [...latestEpisodes, ...allEpisodes]
 
