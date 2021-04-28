@@ -12,11 +12,16 @@ import Image from 'next/image'
 import { usePlayer } from '../../contexts/PlayerContext'
 
 // HOOKS
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+// UTILS
+import convertDurationToTimeString from '../../utils/convertDurationToTimeString'
 
 
 export const Player = () => {
   const audioRef = useRef<HTMLAudioElement>(null)
+
+  const [progress, setProgress] = useState(0)
 
   const {
     episodeList,
@@ -44,6 +49,19 @@ export const Player = () => {
     }
   }, [isPlaying])
 
+  const setupProgressListener = () => {
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.addEventListener('timeupdate', () => {
+      setProgress(Math.floor(audioRef.current.currentTime));
+    })
+  }
+
+  const handleSeek = (amount: number) => {
+    audioRef.current.currentTime = amount;
+    setProgress(amount)
+  }
+
   const episode = episodeList[currentEpisodeIndex]
 
   return (
@@ -70,10 +88,13 @@ export const Player = () => {
       )}
       <footer className={!episode ? styles.empty : ''}>
         <div className={styles.progress}>
-          <span>00:00</span>
+          <span>{convertDurationToTimeString(progress)}</span>
           <div className={styles.slider}>
             {episode ? (
               <Slider
+                max={episode.duration}
+                value={progress}
+                onChange={handleSeek}
                 trackStyle={{ backgroundColor: '#04d361' }}
                 railStyle={{ backgroundColor: '#9f75ff' }}
                 handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
@@ -82,7 +103,7 @@ export const Player = () => {
               <div className={styles.emptySlider} />
             )}
           </div>
-          <span>00:00</span>
+          <span>{convertDurationToTimeString(episode ? episode.duration : 0)}</span>
         </div>
         {episode
           && <audio
@@ -92,6 +113,7 @@ export const Player = () => {
             onPause={() => setPlayingState(false)}
             autoPlay
             loop={isLooping}
+            onLoadedMetadata={setupProgressListener}
           />}
         <div className={styles.buttons}>
           <button type="button" disabled={!episode || episodeList.length === 1} className={isShuffling ? styles.isActive : ''} onClick={toggleShuffle}>
