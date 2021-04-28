@@ -7,6 +7,7 @@ import 'rc-slider/assets/index.css'
 
 // NEXT
 import Image from 'next/image'
+import Head from 'next/head'
 
 //CONTEXT
 import { usePlayer } from '../../contexts/PlayerContext'
@@ -36,6 +37,7 @@ export const Player = () => {
     toggleShuffle,
     setPlayingState,
     playNext,
+    clearPlayerState,
     playPrevious } = usePlayer()
 
   useEffect(() => {
@@ -62,10 +64,21 @@ export const Player = () => {
     setProgress(amount)
   }
 
+  const handleEpisodeEnded = () => {
+    if (hasNext) {
+      playNext()
+    } else {
+      clearPlayerState()
+    }
+  }
+
   const episode = episodeList[currentEpisodeIndex]
 
   return (
     <div className={styles.playerContainer}>
+      <Head>
+        <title>Home  |  Podcastr</title>
+      </Head>
       <header>
         <img src="/playing.svg" alt="Tocando agora" />
         <strong>Tocando agora</strong>
@@ -109,6 +122,7 @@ export const Player = () => {
           && <audio
             src={episode.url}
             ref={audioRef}
+            onEnded={handleEpisodeEnded}
             onPlay={() => setPlayingState(true)}
             onPause={() => setPlayingState(false)}
             autoPlay

@@ -5,6 +5,7 @@ import styles from '../../styles/pages/episode.module.scss'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
 
 // DATE FNS
 import { format, parseISO } from 'date-fns'
@@ -18,6 +19,7 @@ import convertDurationToTimeString from '../../utils/convertDurationToTimeString
 
 // CONTEXT
 import { usePlayer } from '../../contexts/PlayerContext'
+
 
 // TIPAGEM
 interface Episode {
@@ -42,6 +44,9 @@ export default function Episode({ episode }: EpisodeProps) {
 
   return (
     <div className={styles.episode}>
+      <Head>
+        <title>{episode.title} |  Podcastr</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
         <Link href="/">
           <button type="button">
