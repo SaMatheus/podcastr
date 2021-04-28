@@ -18,7 +18,18 @@ import { useEffect, useRef } from 'react'
 export const Player = () => {
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const { episodeList, currentEpisodeIndex, isPlaying, hasNext, hasPrevious, togglePlay, setPlayingState, playNext, playPrevious } = usePlayer()
+  const {
+    episodeList,
+    currentEpisodeIndex,
+    isPlaying,
+    isLooping,
+    hasNext,
+    hasPrevious,
+    togglePlay,
+    toggleLoop,
+    setPlayingState,
+    playNext,
+    playPrevious } = usePlayer()
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -78,6 +89,7 @@ export const Player = () => {
             onPlay={() => setPlayingState(true)}
             onPause={() => setPlayingState(false)}
             autoPlay
+            loop={isLooping}
           />}
         <div className={styles.buttons}>
           <button type="button" disabled={!episode}>
@@ -97,7 +109,7 @@ export const Player = () => {
           <button type="button" disabled={!episode || !hasNext} onClick={playNext}>
             <img src="/play-next.svg" alt="Tocar proxima" />
           </button>
-          <button type="button" disabled={!episode}>
+          <button className={isLooping ? styles.isActive : ''} type="button" disabled={!episode} onClick={toggleLoop}>
             <img src="/repeat.svg" alt="Repetir" />
           </button>
         </div>
