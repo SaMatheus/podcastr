@@ -77,7 +77,7 @@ export const Player = () => {
   return (
     <div className={styles.playerContainer}>
       <Head>
-        <title>Home  |  Podcastr</title>
+        <title>Home | Podcastr</title>
       </Head>
       <header>
         <img src="/playing.svg" alt="Tocando agora" />
