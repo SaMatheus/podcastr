@@ -3,7 +3,6 @@ import styles from '../../styles/pages/episode.module.scss'
 
 // NEXT
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -40,12 +39,6 @@ interface EpisodeProps {
 
 export default function Episode({ episode }: EpisodeProps) {
   const { play } = usePlayer()
-
-  const router = useRouter()
-
-  if (router.isFallback) {
-    return <p>Carregando...</p>
-  }
 
   return (
     <div className={styles.episode}>
