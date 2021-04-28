@@ -1,6 +1,10 @@
 {
   "name": "podcastr",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.x",
+    "yarn": "1.x"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
